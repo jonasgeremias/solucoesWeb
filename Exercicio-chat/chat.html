@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8" />
+
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+			font-family: 'Tahoma';
+		}
+
+		html, body {
+			width: 100%;
+    		height: 100%;
+			min-width: 350px;
+			min-height: 500px;
+			overflow: auto;
+		}
+
+		body {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			background-color: #eee;
+		}
+
+		.cardview {
+			background-color: #fff;
+    		width: 65%;
+			height: 85%;
+			min-width: 350px;
+			min-height: 500px;
+			max-width: 600px;
+			box-shadow: 0 10px 15px 0 rgba(0,0,0,0.8);
+			border: 1px solid black; 
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		
+		header {
+			width: 100%;
+			height: 10%;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			border-radius : 10px 10px 0px 0px;
+			border-bottom: 1px solid black; 
+		}
+
+		h1 {
+			font-family: cursive;
+			font-size: 22px;
+			padding-left: 20px;
+			color:rgb(97, 39, 190)
+		}
+
+		#messages {
+			height: 75%;
+			width: 95%;
+			overflow: auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			border: 1px solid black;
+			margin: 10px 10px;
+		}
+
+		.message-item {
+			width: 95%;
+			height: auto;
+			display: flex;
+			flex-direction: column;
+			padding: 5px;
+			margin-bottom: 10px;
+		}	
+
+		.message-usuario-dir {
+			text-align: right;
+		}
+		.message-usuario-dir .author {
+			padding: 10px;
+			font-weight: bold;
+		}
+
+		.message-atendente-esq {
+			align-items: left;
+		}
+		
+		.message-atendente-esq .author {
+			padding: 10px;
+			font-weight: bold;
+		}
+
+		.message-text {
+			padding: 10px;
+			border: 1px solid black !important; 
+ 			overflow: hidden;
+			word-wrap: break-word; /* quebra texto */
+			text-align: left;
+			background-color: #fff;
+		}
+
+		.message-atendente-esq .message-text {
+			margin-right: 30px;
+			margin-left: 10px;
+		}
+
+		.message-usuario-dir .message-text {
+			margin-left: 30px;
+			margin-right: 10px;
+		}
+		
+		footer {
+			display: flex;
+			justify-content: center;
+			width: 100%;
+			height: 10%;
+		}
+
+		form {
+			display: flex;
+			height: 85%;
+			width: 95%;
+			align-items: center;
+		}
+
+		.btn {
+			width: 30%;
+			height: 70%;
+			cursor: pointer;
+			border: solid 1px black;
+			font-size: 18px;
+			font-family: cursive;
+			font-weight: bold;
+		}
+		.btn-primary {
+			background-color: rgb(255, 255, 255);
+			color: rgb(26, 161, 128);
+			transition: background-color 0.2s;
+		}
+		.btn-primary:hover {
+			background-color: rgb(182, 252, 213);
+			color: rgb(19, 109, 86);
+			transition: background-color 0.2s;
+		}
+
+		input {
+			border: solid 1px black;
+			width: 70%;
+			height: 70%;
+			margin-right: 10px;
+			padding-left: 10px;
+		}
+		input[type="text"] {
+			font-size: 18px;
+			font-family: cursive;
+		}
+		
+	</style>
+	<title>Atendimento on-line - Chat SATC</title>
+
+</head>
+
+<body>
+	<div class="cardview">
+		<header>
+			<h1>Atendimento on-line</h1>
+		</header>
+		<main id="messages">
+			<div class="message-item message-usuario-dir">
+				<div class="author">Você diz:</div>
+				<div class="message-text">Blabla blabla blablabla</div>
+			</div>
+			<div class="message-item message-atendente-esq">
+				<div class="author">Atendente diz:</div>
+				<div class="message-text">Blabla blabla</div>
+			</div>
+			<div class="message-item message-usuario-dir">
+				<div class="author">Você diz:</div>
+				<div class="message-text">Blabla blabla blablabla</div>
+			</div>
+			<div class="message-item message-usuario-dir">
+				<div class="author">Você diz:</div>
+				<div class="message-text">Blabla blabla blablabla</div>
+			</div>
+			<div class="message-item message-atendente-esq">
+				<div class="author">Atendente diz:</div>
+				<div class="message-text">Blabla blabla</div>
+			</div>
+		</main>
+		<footer>
+			<form id="formChat" action="" method="post">
+				<input type="text" name="msg" class="form-control" id="msg" placeholder="Digite sua mensagem..." />
+				<button class="btn btn-primary" type="submit">ENVIAR</button>
+			</form>
+		</footer>
+	</div>
+
+
+
+	<script>
+		function formSubmit(event) {
+			event.preventDefault();
+			
+			const message = document.getElementById('msg');
+			
+			if (message.value.length <= 0) return;
+
+			let author = document.createElement('div');
+			author.classList.add("author");
+			author.innerHTML ='Você diz:';
+
+			let newmessage = document.createElement('div');
+			newmessage.classList.add("message-text");
+			newmessage.innerHTML = message.value;
+
+			let container = document.createElement('div');
+			container.classList.add("message-item");
+			container.classList.add("message-usuario-dir");
+
+			container.appendChild(author);
+			container.appendChild(newmessage);
+
+			const messages = document.getElementById('messages');
+			messages.appendChild(container);
+			messages.scrollTop = messages.scrollHeight;
+			
+			message.value = "";
+		}
+
+		const formChat = document.getElementById('formChat');
+		formChat.addEventListener('submit', formSubmit);
+
+
+
+	</script>
+
+
+
+
+</body>
+
+</html>
